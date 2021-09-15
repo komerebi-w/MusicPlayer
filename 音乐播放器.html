@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background-image: url("./img/bg.png");
+            background-size: cover;
+        }
+        .box{
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            box-shadow: 0 0 5px #666;
+            border-radius: 6px;
+            background-color: rgba(252, 238, 238, 0.65);
+            top: 50%;
+            transform: translatey(-50%);
+            margin: 0 auto;
+        }
+        .title{
+            position: relative;
+            width: 100%;
+            height: 65px;
+            background-color: #7c1823;
+            z-index: 3;
+        }
+        .title>span{
+            display: inline-block;
+            width: 160px;
+            height: 100%;
+            line-height: 65px;
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            padding-left: 25px;
+        }
+        .title>input{
+            position: absolute;
+            top: 17px;
+            right: 30px;
+            width: 260px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 20px;
+            background-color: #fff;
+            padding-left: 15px;
+            outline: none;
+            border: none;
+            box-sizing: border-box;
+        }
+        .title>button:active{
+            background-color: rgba(115, 39, 80, 0.76);
+        }
+        .btn{
+            position: absolute;
+            top: 17px;
+            right: 55px;
+            width: 45px;
+            height: 30px;
+            border: 1px solid #cbcbcb;
+            outline: none;
+            border-radius: 25px;
+            background-color: #ab1824;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .info{
+            width: 100%;
+            height: 470px;
+            background-color: rgba(102, 102, 102, 0.08);
+        }
+        .list{
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            width: 100%;
+            height: 100%;
+        }
+        .music{
+            flex: 1;
+            /*background-color: rgba(0, 0, 255, 0.36);*/
+        }
+        .img{
+            position: relative;
+            flex: 2;
+            /*background-color: rgba(255, 43, 242, 0.25);*/
+        }
+        .img:before{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translatey(-50%);
+            display: inline-block;
+            content: "";
+            width: 1px;
+            height: 470px;
+            background-image: linear-gradient(rgba(102, 102, 102, 0.08),#cbcbcb,rgba(102, 102, 102, 0.08));  //线性渐变
+            /*background-image: radial-gradient(#b0b0b0, #fff);*/
+        }
+        .img:after{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translatey(-50%);
+            display: inline-block;
+            content: "";
+            width: 1px;
+            height: 470px;
+            background-image: linear-gradient(rgba(102, 102, 102, 0.08),#cbcbcb,rgba(102, 102, 102, 0.08));  //线性渐变
+        }
+        .control{
+            position:relative;
+            width: 100%;
+            height: 70px;
+            background-color: rgb(243, 243, 243);
+            z-index: 599999;
+        }
+        #audio{
+            width: 1000px;
+            height: 65px;
+            line-height: 70px;
+            outline: none;
+        }
+        #menu{
+            width: 200px;
+            height: 98%;
+            margin: 10px auto;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+        #menu::-webkit-scrollbar{
+            display: none;
+        }
+        #menu>li{
+            list-style: none;
+            height: 40px;
+            line-height: 40px;
+            padding:0 10px;
+            box-sizing: border-box;
+            margin: 5px 0;
+            border-radius: 15px;
+            background-color: rgba(253, 253, 253, 0.705);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            /*padding: 10px 0;*/
+        }
+        #menu>li span{
+            display: inline-block;
+            width: 125px;
+            text-align: left;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        #menu>li i{
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+        #menu>li .play{
+            background-image: url("./img/play.png");
+            background-size: cover;
+            margin-right: 5px;
+        }
+        #menu>li .yep{
+            background-image: url("./img/MV.png");
+            background-size: cover;
+            width: 22px;
+            height: 22px;
+        }
+
+        .comment{
+            flex: 1.2;
+            /*background-color: rgba(0, 106, 0, 0.36);*/
+        }
+        .comment>h4{
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-weight: bold;
+            color: #7c1823;
+            margin-top: 10px;
+        }
+        #comment{
+            width: 100%;
+            height: 420px;
+            margin: 0 auto;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+        #comment::-webkit-scrollbar{
+            display: none;
+        }
+        #comment li{
+            list-style: none;
+            height: 40px;
+            width: 285px;
+            line-height: 40px;
+            padding:0 3px;
+            box-sizing: border-box;
+            margin: 5px 4px;
+            border-radius: 13px;
+            background-color: rgba(253, 253, 253, 0.705);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        #comment>li span{
+            display: inline-block;
+            text-align: left;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .animate{
+            position: absolute;
+            width: 80px;
+            height: 130px;
+            right: 100px;
+            top: -3px;
+            background-image: url("./img/player_bar.3b9b552.png");
+            background-size: 100% 100%;
+            z-index: 2;
+            transform-origin: 8px 8px;
+            transition: all .5s ease;
+        }
+        .trans{
+            transform: rotatez(40deg);
+        }
+        .dis{
+            position: absolute;
+            width: 255px;
+            height: 255px;
+            top: 50%;
+            left: 50%;
+            margin-top: -127px;
+            margin-left: -127px;
+            background-image: url("./img/disc.e89e0c3.png");
+            background-size: cover;
+            z-index: 1;
+            transform-origin: 50% 50%;
+        }
+        .rotate{
+            animation: rotatez 13s .5s linear infinite;
+        }
+        @keyframes rotatez  {
+            from{
+                transform: rotatez(0deg);
+            }
+            to{
+                transform: rotatez(360deg);
+            }
+        }
+        .liimg{
+            position: absolute;
+            width: 142px;
+            height: 142px;
+            top: 50%;
+            left: 50%;
+            margin-top: -70px;
+            margin-left: -70px;
+            border-radius: 50%;
+            overflow: hidden;
+            /*background-image: url("./img/disc.e89e0c3.png");*/
+            z-index: 1;
+        }
+        .liimg>img{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+        }
+        .fir{
+            width: 71%;
+            margin-right: 4px;
+        }
+        .sec{
+            width:29%;
+        }
+        #sname{
+            position: absolute;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            left: 0;
+            bottom: 60px;
+            z-index: 2;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #author{
+            position: absolute;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            height: 20px;
+            line-height: 20px;
+            left: 0;
+            bottom: 38px;
+            z-index: 2;
+            font-size: 14px;
+        }
+        .MV{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        .hide{
+            display: none;
+        }
+        .MV>video{
+            position: relative;
+            width: 1000px;
+            height: 605px;
+        }
+        #Close{
+            position: absolute;
+            right: 20px;
+            top: 40px;
+            background-image: url("./img/close.png");
+            background-size: cover;
+            width: 22px;
+            height: 22px;
+            z-index: 6;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="title">
+        <span>音乐播放器</span>
+        <input id="searchText" type="text" placeholder="请输入音乐名称"/>
+        <button id="btnsearch" class="btn">搜索</button>
+        <!--<span class="btn"><i class="iconfont">&#xf012c;</i></span>-->
+    </div>
+    <div class="info">
+        <ul class="list">
+            <li class="music">
+                <ul id="menu"></ul>
+            </li>
+            <li class="img">
+                <div class="animate" id="aninfo"></div>
+                <div class="dis" id="disinfo"></div>
+                <div class="liimg" id="userinfo"><img id="fen"></div>
+                <div id="sname"></div>
+                <div id="author"></div>
+            </li>
+            <li class="comment">
+                <h4>热门评论</h4>
+                <ul id="comment"></ul>
+            </li>
+        </ul>
+    </div>
+    <div class="control" id="control">
+        <audio id="audio" controls></audio>
+    </div>
+    <div class="MV hide" id="mvitem">
+        <i id="Close"></i>
+        <video id="videoItem" controls></video>
+    </div>
+</div>
+<script>
+    /*
+    * 搜索歌曲API:https://autumnfish.cn/search?keywords=  (get)
+    * 歌曲url获取接口:https://autumnfish.cn/song/url?id=  (get)
+    * 获取详细信息：https://autumnfish.cn/song/detail?ids=  (get)
+    * 热门评论API：https://autumnfish.cn/comment/hot?type=0&id=  (get)
+    * 歌曲MV:https://autumnfish.cn/mv/url?id=  (get)
+    * */
+    var palyList,mvList;
+    //封装Ajax
+    function Ajax(method,url,data,callback){
+        var http;
+        if(window.XMLHttpRequest){
+            http=new XMLHttpRequest();
+        }
+        else{
+            //IE5,IE6
+            http=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if(method=="get"){
+            if(data){
+                url+="?";
+                url+=data;
+            }
+            http.open(method,url);
+            http.send();
+        }
+        else{
+            http.open(method,url);
+            if(data){
+                http.send(data);
+            }
+            else{
+                http.send();
+            }
+        }
+        http.onreadystatechange= function () {
+            if(http.readyState==4&&http.status==200){
+                //匿名函数回调 才能把数据拿到外面使用
+                callback(http.response);
+            }
+        }
+    }
+
+    //按回车搜索
+    searchText.onkeyup= function (e) {
+        if(e.keyCode==13){
+            //监测value值
+            var value=searchText.value.replace(/\s/g,'');  //去空
+            if(value){
+                searchMusic(value);
+                searchText.value="";
+            }
+            else{
+                alert("请先输入");
+            }
+        }
+    }
+    //点击搜索
+    btnsearch.onclick= function () {
+        //监测value值
+        var value=searchText.value.replace(/\s/g,'');  //去空
+        if(value){
+            searchMusic(value);
+            searchText.value="";
+        }
+        else{
+            alert("请先输入");
+        }
+    }
+    //点击关闭MV
+    Close.onclick= function () {
+        mvitem.classList.add("hide");
+        videoItem.src="";
+    }
+    //获取相关搜索歌曲
+    function searchMusic(music){
+        var src="https://autumnfish.cn/search";
+        Ajax("get",src,"keywords="+music, function (res) {
+//            console.log(JSON.parse(res).result.songs); //JSON.parse:与服务端交换数据，将字符串转换为JS对象
+            //数据循环渲染
+            var str="";
+            var song=JSON.parse(res).result.songs;
+            for(var i=0;i<song.length;i++){
+                str+="<li><i class='play' data-id='"+song[i].id+"'></i><span>"+song[i].name+"</span>"+(song[i].mvid!=0?"<i class='mv yep' data-mv='"+song[i].mvid+"'></i>":"<i class='mv'></i>")+"</li>";
+            }
+            menu.innerHTML=str;
+            //赋值完成之后 才有开始元素
+            palyList=document.getElementsByClassName("play");
+            mvList=document.getElementsByClassName("yep");
+            addPlayHandle();
+            addMv();
+        })
+    }
+    //给所有的mv添加事件
+    function addMv(){
+        let src="https://autumnfish.cn/mv/url";
+        for(var i=0;i<mvList.length;i++){
+            mvList[i].onclick= function () {
+                var mvid=this.getAttribute("data-mv");
+                //获取歌曲MV
+                Ajax("get",src,"id="+mvid, function (res) {
+                    var respon=JSON.parse(res);
+//                    console.log(respon.data.url);
+                    mvitem.classList.remove("hide");
+                    videoItem.src=respon.data.url;
+                    videoItem.play();
+					audio.pause();  //音乐暂停
+                 })
+            }
+        }
+    }
+    /*暂停歌曲 停止动画*/
+    //给所有的play添加事件
+    function addPlayHandle(){
+        let url="https://autumnfish.cn/song/url";
+        let detailurl="https://autumnfish.cn/song/detail";
+        let chaturl="https://autumnfish.cn/comment/hot";
+        for(var i=0;i<palyList.length;i++){
+            palyList[i].onclick= function () {
+                //中间元素执行动画
+                aninfo.classList.add("trans");
+                disinfo.classList.add("rotate");
+
+                var id=this.getAttribute("data-id");
+                Ajax("get",url,"id="+id, function (res) {
+                    //获取歌曲路径
+                    var respon=JSON.parse(res);
+//                    console.log(respon);  //JSON.parse:与服务端交换数据，将字符串转换为JS对象
+//                    console.log(respon.data[0].url);
+                    //设置audio
+                    audio.src=respon.data[0].url;
+                    audio.play(); //开始播放
+                })
+                //获取歌曲详情
+                Ajax("get",detailurl,"ids="+id, function (res) {
+                    var respon=JSON.parse(res);
+                    console.log(respon);
+                })
+                //获取歌曲封面
+                Ajax("get",detailurl,"ids="+id, function (res) {
+                    var respon=JSON.parse(res);
+//                    console.log(respon.songs[0].al.picUrl);
+                    fen.src=respon.songs[0].al.picUrl;
+                })
+                //获取歌名与歌手
+                Ajax("get",detailurl,"ids="+id, function (res) {
+                    var respon=JSON.parse(res);
+//                    console.log(respon);
+                    sname.innerHTML=respon.songs[0].name;
+                    author.innerHTML=respon.songs[0].ar[0].name;
+                })
+                //获取歌曲评论
+                Ajax("get",chaturl,"type=0&id="+id, function (res) {
+                    var respon=JSON.parse(res);
+                    console.log(respon);
+                    addComment(respon.hotComments);
+                })
+            }
+        }
+    }
+    //绑定当前歌曲的评论
+    function addComment(comm){
+        var str="";
+        var time=new Date();
+        for(var i=0;i<comm.length;i++){
+            time.setTime(comm[i].time);
+            str+="<li><span class='fir'>"+comm[i].content+"</span><span class='sec'>"+time.toLocaleString()+"</span></li>";
+        }
+        comment.innerHTML=str;
+    }
+</script>
+</body>
+</html>
